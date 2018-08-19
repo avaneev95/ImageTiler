@@ -61,12 +61,19 @@ public class TileGenerator {
 
             // Creating image chunks for the further cropping
             for (int level = maxZoomLevel; level >= 0; level--) {
-                int mapSize = MapHelper.mapSize(tileSize, level);
-                BufferedImage value = resizeImage(source, mapSize, mapSize);
-                chunks.put(level, value);
+                if (level == maxZoomLevel) {
+                    chunks.put(level, source);
+                } else {
+                    int mapSize = MapHelper.mapSize(tileSize, level);
+                    BufferedImage value = resizeImage(source, mapSize, mapSize);
+                    chunks.put(level, value);
+                }
             }
 
             ForkJoinPool.commonPool().invoke(new ZoomLevelTask(0, maxZoomLevel));
+        } catch (RuntimeException e) {
+            log.error("Ann error occurred: ", e);
+            tileWriter.clearOutputDirectory();
         } finally {
             pb.close();
             chunks.clear();
