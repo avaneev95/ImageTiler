@@ -14,7 +14,7 @@ It also provides a simple preview file using Leaflet library.
 1. Download the runnable jar file [imagetiler-1.0.0.jar](https://github.com/avaneev95/ImageTiler/releases/download/1.0.0/imagetiler-1.0.0.jar).
 2. Run it with:
 ```
-$ java -jar imagetiler [filename] 
+$ java -jar imagetiler-1.0.0.jar [filename] 
 ```
 where `filename` - is the image you want to split. It better works with square images which size is a power of two, ex.: 512x512 or 4096x4096.
 
