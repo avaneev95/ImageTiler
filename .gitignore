@@ -1,0 +1,36 @@
+/dist/
+/core/src/main/webapp/WEB-INF/static/dist
+/core/src/main/webapp/WEB-INF/static/node_modules/
+/core/src/main/webapp/WEB-INF/static2/node_modules
+# Eclipse specific settings
+
+.classpath/
+.project/
+.settings/
+
+# IntelliJ Idea settings
+
+.idea/
+*.iml
+
+# vs code
+.vscode/
+
+# Binaries
+
+target/
+application/
+core/target/
+catalina.base_IS_UNDEFINED/
+lucene/
+
+#macos
+.DS_Store
+npm-debug.log
+launch.json
+
+#Log file
+/logs/
+tps-backend.log
+/tiler-app.log
+/test_images/
