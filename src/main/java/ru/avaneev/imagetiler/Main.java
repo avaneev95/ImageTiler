@@ -27,7 +27,9 @@ public class Main {
         Options options = new Options();
         try (OptionsReader optionsReader = new OptionsReader(options)) {
             if (sourceFile.exists()) {
+                System.out.print("Loading image...");
                 original = ImageIO.read(sourceFile);
+                System.out.println("Done");
                 options.setImageSize(original.getWidth());
                 System.out.println("Specify additional properties to generate tiles:");
 

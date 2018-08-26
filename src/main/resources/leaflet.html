@@ -45,6 +45,18 @@
         return Math.log(scale * mapMinResolution) / Math.LN2;
     };
 
+    var originalInitTile = L.GridLayer.prototype._initTile;
+    L.GridLayer.include({
+        _initTile: function (tile) {
+            originalInitTile.call(this, tile);
+
+            var tileSize = this.getTileSize();
+
+            tile.style.width = tileSize.x + 1 + 'px';
+            tile.style.height = tileSize.y + 1 + 'px';
+        }
+    });
+
     var bottomLeft = new L.LatLng(mapExtent[1], mapExtent[0]),
         topRight = new L.LatLng(mapExtent[3], mapExtent[2]),
         bounds = new L.LatLngBounds(bottomLeft, topRight);

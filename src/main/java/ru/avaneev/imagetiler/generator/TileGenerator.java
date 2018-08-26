@@ -55,11 +55,11 @@ public class TileGenerator {
      */
     public void run() {
         log.info("Starting to generate tiles...");
-        pb = getProgressBar();
         try {
             tileWriter.resetOutputDirectory();
 
             // Creating image chunks for the further cropping
+            System.out.print("Preparing image...");
             for (int level = maxZoomLevel; level >= 0; level--) {
                 if (level == maxZoomLevel) {
                     chunks.put(level, source);
@@ -69,7 +69,9 @@ public class TileGenerator {
                     chunks.put(level, value);
                 }
             }
+            System.out.println("Done");
 
+            pb = getProgressBar();
             ForkJoinPool.commonPool().invoke(new ZoomLevelTask(0, maxZoomLevel));
         } catch (RuntimeException e) {
             log.error("Ann error occurred: ", e);
