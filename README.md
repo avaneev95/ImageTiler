@@ -19,7 +19,7 @@ You can also download an executable [ImageTiler.exe](https://github.com/avaneev9
 4. Specify settings
 5. Generate tiles
 
-##### Settings
+## Settings
 * `Tile size` - the size of smallest image chunk, default is 256.
 * `Max zoom level` - the max allowed zoom level of the image. Can be the integer number between 1 and 10, by default application will calculate the optimal zoom level based on image size and tile size.
 * `Output directory` - the directory where generated tiles will be saved. If the directory doesn't exist, it will be created. The tiles wil be placed in a `map` subfolder.
@@ -27,7 +27,7 @@ You can also download an executable [ImageTiler.exe](https://github.com/avaneev9
 * `Preview height` - the preview window height. Default is 720.
 * `Preview width` - the preview window width. Default is 720.
 
-##### Limitations
+## Limitations
 * It better works with square images which size is a power of two, ex.: 512x512 or 4096x4096.
 * It can run out of memory processing images large than 16384x16384 px.
 
