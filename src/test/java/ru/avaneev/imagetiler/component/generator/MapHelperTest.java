@@ -1,4 +1,4 @@
-package ru.avaneev.imagetiler.generator;
+package ru.avaneev.imagetiler.component.generator;
 
 import org.junit.Test;
 

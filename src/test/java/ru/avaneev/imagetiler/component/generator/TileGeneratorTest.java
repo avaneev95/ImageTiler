@@ -1,10 +1,10 @@
-package ru.avaneev.imagetiler.generator;
+package ru.avaneev.imagetiler.component.generator;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import ru.avaneev.imagetiler.Options;
+import ru.avaneev.imagetiler.model.Options;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -14,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 /**
  * @author Andrey Vaneev
@@ -36,13 +35,14 @@ public class TileGeneratorTest {
         this.options = Options.builder()
                 .zoomLevel(1)
                 .tileSize(256)
+                .sourceFile(source)
                 .outputDir(outputDir.toString())
                 .build();
     }
 
     @Test
     public void shouldCreateTiles() throws IOException {
-        TileGenerator generator = TileGenerator.newInstance(source, options);
+        TileGenerator generator = TileGenerator.newInstance(options);
         generator.run();
         long tiles = Files.walk(outputDir).filter(Files::isRegularFile).count();
         assertThat(tiles).isEqualTo(5);

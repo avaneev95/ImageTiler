@@ -1,4 +1,4 @@
-package ru.avaneev.imagetiler.generator;
+package ru.avaneev.imagetiler.component.generator;
 
 /**
  * The helper class to calculate the values ​​needed during tiles generation.

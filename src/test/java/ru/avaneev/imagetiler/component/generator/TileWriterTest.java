@@ -1,4 +1,4 @@
-package ru.avaneev.imagetiler.generator;
+package ru.avaneev.imagetiler.component.generator;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -33,22 +33,23 @@ public class TileWriterTest {
 
         writer.createOutputDirectory();
 
-        long directories = Files.walk(outputDir).filter(Files::isDirectory).count();
+        Path dest = outputDir.resolve("map");
+        long directories = Files.walk(dest).filter(Files::isDirectory).count();
         assertThat(directories).isEqualTo(37);
-        assertThat(outputDir.resolve("0").toFile().exists()).isEqualTo(true);
-        assertThat(outputDir.resolve("0").resolve("0").toFile().exists()).isEqualTo(true);
-        assertThat(outputDir.resolve("4").resolve("8").toFile().exists()).isEqualTo(true);
+        assertThat(dest.resolve("0").toFile().exists()).isEqualTo(true);
+        assertThat(dest.resolve("0").resolve("0").toFile().exists()).isEqualTo(true);
+        assertThat(dest.resolve("4").resolve("8").toFile().exists()).isEqualTo(true);
     }
 
     @Test
     public void shouldRemoveOutputDirectory() throws IOException {
         TileWriter writer = new TileWriter(outputDir.toString(), 256, 4);
         writer.createOutputDirectory();
-        long directories = Files.walk(outputDir).filter(Files::isDirectory).count();
+        long directories = Files.walk(outputDir.resolve("map")).filter(Files::isDirectory).count();
         assertThat(directories).isEqualTo(37);
 
         writer.clearOutputDirectory();
 
-        assertThat(outputDir.toFile().exists()).isEqualTo(false);
+        assertThat(outputDir.resolve("map").toFile().exists()).isEqualTo(false);
     }
 }

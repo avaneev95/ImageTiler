@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import com.jfoenix.validation.IntegerValidator?>
+<?import ru.avaneev.imagetiler.component.validation.IntegerSizeValidator?>
+
+<BorderPane prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.avaneev.imagetiler.controller.SettingsController">
+    <top>
+        <JFXToolbar prefHeight="97.0" prefWidth="7264.0">
+            <leftItems>
+                <MaterialDesignIconView glyphName="SETTINGS" layoutX="43.0" layoutY="98.0" size="24" styleClass="icon" />
+                <Label text="Settings" />
+            </leftItems>
+        </JFXToolbar>
+    </top>
+   <center>
+      <VBox spacing="32.0" styleClass="settings-form-box" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane hgap="16.0" styleClass="image-properties">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" prefWidth="168.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="517.0" minWidth="10.0" prefWidth="424.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="32.0" minHeight="32.0" prefHeight="32.0" />
+                <RowConstraints maxHeight="32.0" minHeight="32.0" prefHeight="32.0" />
+              </rowConstraints>
+               <children>
+                  <Label styleClass="prop-name" text="Filename">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="filenameLabel" text="ImageName.png" GridPane.columnIndex="1" />
+                  <Label styleClass="prop-name" text="Size" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="imageSizeLabel" text="4096x4096 px" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="8.0" />
+               </VBox.margin>
+            </GridPane>
+            <GridPane hgap="40.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+               <children>
+                  <MaterialDesignIconView glyphName="SELECTION" size="24" styleClass="icon" />
+                  <JFXTextField fx:id="tileSizeInput" labelFloat="true" promptText="Tile size" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                      <validators>
+                          <RequiredFieldValidator message="Required field!" />
+                          <IntegerValidator message="Expected an integer value!"/>
+                          <IntegerSizeValidator min="64" message="Minimal value is 64!"/>
+                      </validators>
+                     <GridPane.margin>
+                        <Insets left="40.0" />
+                     </GridPane.margin>
+                  </JFXTextField>
+                  <MaterialDesignIconView glyphName="MAGNIFY_PLUS" size="24" styleClass="icon" GridPane.columnIndex="1" />
+                  <JFXTextField fx:id="zoomLevelInput" labelFloat="true" promptText="Max zoom level" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                      <validators>
+                          <RequiredFieldValidator message="Required field!" />
+                          <IntegerValidator message="Expected an integer value!"/>
+                          <IntegerSizeValidator min="1" max="10" message="Expected value between 1 and 10!"/>
+                      </validators>
+                      <GridPane.margin>
+                        <Insets left="40.0" />
+                     </GridPane.margin>
+                  </JFXTextField>
+               </children>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
+            </GridPane>
+            <GridPane hgap="40.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="479.0" minWidth="265.0" prefWidth="477.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+              </columnConstraints>
+               <children>
+                  <MaterialDesignIconView glyphName="FOLDER_OUTLINE" size="24" styleClass="icon" GridPane.rowIndex="1" />
+                  <JFXTextField fx:id="outputDirectoryInput" labelFloat="true" prefHeight="25.0" prefWidth="344.0" promptText="Output directory" style="-fx-pref-width: 100%;" GridPane.rowIndex="1">
+                      <validators>
+                          <RequiredFieldValidator message="Required field!" />
+                      </validators>
+                      <GridPane.margin>
+                        <Insets left="40.0" />
+                     </GridPane.margin>
+                  </JFXTextField>
+                  <JFXButton fx:id="browseOutputDirectoryButton" onAction="#browseOutputDirectory" text="BROWSE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+               </children>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+            </GridPane>
+            <JFXCheckBox fx:id="generatePreviewCheckbox" text="Generate preview" />
+            <GridPane hgap="40.0" visible="false">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <children>
+                  <JFXTextField fx:id="previewWidthInput" labelFloat="true" promptText="Prview Width" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                      <validators>
+                          <RequiredFieldValidator message="Required field!" />
+                      </validators>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </JFXTextField>
+                  <JFXTextField fx:id="previewHeightInput" labelFloat="true" promptText="Preview Height" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                      <validators>
+                          <RequiredFieldValidator message="Required field!" />
+                      </validators>
+                      <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </JFXTextField>
+               </children>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
+            </GridPane>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <AnchorPane styleClass="footer" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton fx:id="generateButton" onAction="#generateTiles" text="GENERATE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+         </children>
+      </AnchorPane>
+   </bottom>
+</BorderPane>

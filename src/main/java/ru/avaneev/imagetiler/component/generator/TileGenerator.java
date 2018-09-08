@@ -1,17 +1,17 @@
-package ru.avaneev.imagetiler.generator;
+package ru.avaneev.imagetiler.component.generator;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import me.tongfei.progressbar.ProgressBar;
-import me.tongfei.progressbar.ProgressBarBuilder;
-import me.tongfei.progressbar.ProgressBarStyle;
-import ru.avaneev.imagetiler.Options;
+import ru.avaneev.imagetiler.model.Options;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 /**
  * Generates the map tiles from the provided image.
@@ -25,41 +25,49 @@ public class TileGenerator {
 
     private final int tileSize;
     private final int maxZoomLevel;
-    private final BufferedImage source;
     private final TileWriter tileWriter;
+    private final int totalTiles;
 
-    private ProgressBar pb;
-
+    private BufferedImage source;
     private Map<Integer, BufferedImage> chunks = new ConcurrentHashMap<>();
+
+    private AtomicInteger progress;
+    private Consumer<ProgressEvent> progressListener;
 
     private TileGenerator(int tileSize, String outputDir, int maxZoomLevel, BufferedImage source) {
         this.tileSize = tileSize;
         this.maxZoomLevel = maxZoomLevel;
         this.source = source;
         this.tileWriter = new TileWriter(outputDir, tileSize, maxZoomLevel);
+        this.progress = new AtomicInteger(0);
+        this.totalTiles = MapHelper.totalTilesCount(maxZoomLevel);
     }
 
     /**
      * Creates new instance of {@code TileGenerator}.
      *
-     * @param source the source image to tile
-     * @param options the options to configure generator
+     * @param options the options to configure the generator
      * @see Options
      */
-    public static TileGenerator newInstance(BufferedImage source, Options options) {
-        return new TileGenerator(options.getTileSize(), options.getOutputDir(), options.getZoomLevel(), source);
+    public static TileGenerator newInstance(Options options) {
+        return new TileGenerator(options.getTileSize(), options.getOutputDir(), options.getZoomLevel(), options.getSourceFile());
+    }
+
+    public TileGenerator onProgressUpdate(Consumer<ProgressEvent> handler) {
+        this.progressListener = handler;
+        return this;
     }
 
     /**
      * Runs a tiles generation from image.
      */
     public void run() {
-        log.info("Starting to generate tiles...");
         try {
-            tileWriter.resetOutputDirectory();
+            tileWriter.createOutputDirectory();
+            List<TileTask> tasks = new ArrayList<>();
 
             // Creating image chunks for the further cropping
-            System.out.print("Preparing image...");
+            log.info("Preparing image...");
             for (int level = maxZoomLevel; level >= 0; level--) {
                 if (level == maxZoomLevel) {
                     chunks.put(level, source);
@@ -68,19 +76,25 @@ public class TileGenerator {
                     BufferedImage value = resizeImage(source, mapSize, mapSize);
                     chunks.put(level, value);
                 }
+                int onSideCount = MapHelper.tilesOnSideCount(tileSize, level);
+                tasks.add(new TileTask(0, onSideCount, 0, onSideCount, level));
             }
-            System.out.println("Done");
 
-            pb = getProgressBar();
-            ForkJoinPool.commonPool().invoke(new ZoomLevelTask(0, maxZoomLevel));
-        } catch (RuntimeException e) {
-            log.error("Ann error occurred: ", e);
+            log.info("Starting to generate tiles...");
+            ForkJoinTask.invokeAll(tasks);
+
+        } catch (Exception e) {
             tileWriter.clearOutputDirectory();
+            throw new CompletionException(e);
         } finally {
-            pb.close();
             chunks.clear();
+            source = null;
         }
         log.info("Tiles successfully generated!");
+    }
+
+    public CompletableFuture<Void> runAsync() {
+       return CompletableFuture.runAsync(this::run);
     }
 
     private Tile cropTile(BufferedImage image, int x, int y, int level) {
@@ -97,42 +111,6 @@ public class TileGenerator {
         g.drawImage(toResize, 0, 0, width, height, null);
         g.dispose();
         return resizedImage;
-    }
-
-    private ProgressBar getProgressBar() {
-        return new ProgressBarBuilder()
-                .setStyle(ProgressBarStyle.ASCII)
-                .setInitialMax(MapHelper.totalTilesCount(maxZoomLevel))
-                .setTaskName("Generating tiles...")
-                .build();
-    }
-
-    class ZoomLevelTask extends RecursiveAction {
-        private final int lStart;
-        private final int lEnd;
-
-        ZoomLevelTask(int lStart, int lEnd) {
-            this.lStart = lStart;
-            this.lEnd = lEnd;
-        }
-
-        @Override
-        protected void compute() {
-            if (lEnd - lStart > 1) {
-                int middle = lStart + (lEnd - lStart) / 2;
-                ZoomLevelTask t1 = new ZoomLevelTask(lStart, middle);
-                ZoomLevelTask t2 = new ZoomLevelTask(middle, lEnd);
-                invokeAll(t1, t2);
-                return;
-            }
-
-            // Special task for 0 zoom level
-            if (lStart == 0 && lEnd - lStart == 1) {
-                new TileTask(0, 1, 0, 1, 0).fork();
-            }
-            int onSideCount = MapHelper.tilesOnSideCount(tileSize, lEnd);
-            new TileTask(0, onSideCount, 0, onSideCount, lEnd).invoke();
-        }
     }
 
     class TileTask extends RecursiveAction {
@@ -177,13 +155,34 @@ public class TileGenerator {
             for (int x = xStart; x < xEnd; x++) {
                 for (int y = yStart; y < yEnd; y++) {
                     tileWriter.write(cropTile(chunks.get(level), x, y, level));
+                    if (progressListener != null) {
+                        progressListener.accept(new ProgressEvent(progress.incrementAndGet(), totalTiles));
+                    }
                 }
             }
-            pb.stepBy((xEnd - xStart) * (yEnd - yStart));
         }
 
         private int getMiddle(int start, int end) {
             return start + (end - start) / 2;
+        }
+    }
+
+    @Getter
+    public static class ProgressEvent {
+        private final double totalWork;
+        private final double workDone;
+
+        ProgressEvent(double workDone, double totalWork) {
+            this.totalWork = totalWork;
+            this.workDone = workDone;
+        }
+
+        public double getProgress() {
+            return this.workDone / this.totalWork;
+        }
+
+        public double getPercents() {
+            return this.getProgress() * 100.0;
         }
     }
 }

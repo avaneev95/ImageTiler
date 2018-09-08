@@ -18,8 +18,11 @@
             margin: 0;
             padding: 0;
         }
+        .leaflet-container .leaflet-control:not(.leaflet-control-zoom){
+            font-family: Arial, serif !important;
+        }
         #map {
-            width: 800px; height: 800px;
+            width: ${width}px; height: ${height}px;
             z-index: 1;
             background: #ffffff;
         }

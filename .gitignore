@@ -34,3 +34,7 @@ launch.json
 tps-backend.log
 /tiler-app.log
 /test_images/
+
+
+/output/
+/map/

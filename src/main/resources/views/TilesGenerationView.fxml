@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.avaneev.imagetiler.controller.TilesGenerationController">
+    <top>
+        <JFXToolbar prefHeight="97.0" prefWidth="7264.0">
+            <leftItems>
+                <MaterialDesignIconView glyphName="WRENCH" layoutX="43.0" layoutY="98.0" size="24" styleClass="icon" />
+                <Label text="Generating tiles..." />
+            </leftItems>
+        </JFXToolbar>
+    </top>
+   <bottom>
+      <AnchorPane styleClass="footer" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton fx:id="finishButton" onAction="#onFinish" text="FINISH" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+         </children>
+      </AnchorPane>
+   </bottom>
+   <center>
+      <VBox alignment="CENTER" prefHeight="393.0" prefWidth="640.0" styleClass="generation-status-box" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane prefHeight="50.0">
+               <children>
+                  <Label fx:id="tilesGeneratedLabel" text="0 / ?" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="percentageLabel" text="0%" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <JFXProgressBar fx:id="progressBar" prefHeight="10.0" prefWidth="640.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label fx:id="timeLabel" text="0:0:0 / ?" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

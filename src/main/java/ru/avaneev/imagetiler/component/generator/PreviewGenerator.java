@@ -1,10 +1,10 @@
-package ru.avaneev.imagetiler.generator;
+package ru.avaneev.imagetiler.component.generator;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.text.StringSubstitutor;
-import ru.avaneev.imagetiler.Options;
+import ru.avaneev.imagetiler.model.Options;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,13 +30,15 @@ public class PreviewGenerator {
     public void generate() {
         log.info("Generating Leaflet preview...");
         ClassLoader classLoader = getClass().getClassLoader();
-        File outputDir = new File(options.getOutputDir());
+        File outputDir = new File(options.getOutputDir() + "/map");
         File file = new File(outputDir, "leaflet.html");
         try (InputStream is = classLoader.getResourceAsStream("leaflet.html")) {
             HashMap<String, String> values = new HashMap<>();
             values.put("maxZoomLevel", String.valueOf(options.getZoomLevel()));
             values.put("imageSize", String.valueOf(options.getImageSize()));
             values.put("tileSize", String.valueOf(options.getTileSize()));
+            values.put("height", String.valueOf(options.getPreviewHeight()));
+            values.put("width", String.valueOf(options.getPreviewWidth()));
 
             StringSubstitutor substitutor = new StringSubstitutor(values, "${", "}");
             FileUtils.writeStringToFile(file, substitutor.replace(IOUtils.toString(is)));

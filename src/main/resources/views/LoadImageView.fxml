@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.avaneev.imagetiler.controller.LoadImageController">
+    <top>
+        <JFXToolbar prefHeight="97.0" prefWidth="7264.0">
+            <leftItems>
+                <MaterialDesignIconView glyphName="IMAGE_AREA" layoutX="43.0" layoutY="98.0" size="24" styleClass="icon" />
+                <Label text="Choose image" />
+            </leftItems>
+        </JFXToolbar>
+    </top>
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="fileDropBox" alignment="CENTER" styleClass="file-drop-zone-box">
+               <children>
+                  <AnchorPane visible="false">
+                     <VBox.margin>
+                        <Insets top="-40.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label fx:id="errorLabel" alignment="CENTER" styleClass="error" text="Cannot read file %s! Try another one!" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <MaterialDesignIconView fill="WHITE" glyphName="ALERT_OCTAGON" layoutX="14.0" layoutY="26.0" size="24" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="fileDropZone" onDragDropped="#onFileDropped" onDragOver="#onFileOver">
+                     <children>
+                        <VBox prefWidth="608.0" styleClass="file-drop-zone" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <Label prefHeight="31.0" prefWidth="319.0" text="Drag and drop image here or" />
+                              <JFXButton fx:id="browseFilesButton" onAction="#chooseFile" text="BROWSE FILES" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </children>
+               <padding>
+                  <Insets left="16.0" right="16.0" />
+               </padding>
+            </VBox>
+            <VBox fx:id="fileLoadingBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="file-loading-box" visible="false">
+               <children>
+                  <JFXSpinner prefHeight="50.0" prefWidth="50.0" />
+                  <Label text="Loading image..." />
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>

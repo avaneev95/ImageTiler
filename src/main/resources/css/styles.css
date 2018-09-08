@@ -1,0 +1,137 @@
+.root {
+    -fx-font-smoothing-type: gray;
+    -main-color: #263259;
+    -accent-color: #33B3B6;
+
+    -error-color: #f44236;
+    -text-color: #1F1F1F;
+    -text-light-color: #666666;
+    -text-ehite-color: #F8F8F9;
+}
+
+.label, .button {
+    -fx-font-family: Roboto;
+}
+
+.jfx-tool-bar {
+    -fx-font-size: 20px;
+    -fx-background-color: -main-color;
+    -fx-font-weight: 500;
+    -fx-pref-width: 100%;
+    -fx-pref-height: 48px;
+}
+
+.jfx-tool-bar .icon {
+    -fx-fill: -text-ehite-color;
+}
+
+.jfx-tool-bar .label {
+    -fx-text-fill: -text-ehite-color;
+}
+
+.jfx-tool-bar HBox {
+    -fx-alignment: center;
+    -fx-spacing: 14;
+    -fx-padding: 0 16;
+}
+
+.file-drop-zone-box {
+    -fx-spacing: 16px;
+    -fx-text-fill: -text-ehite-color;
+}
+
+.file-drop-zone-box .error.label {
+    -fx-pref-height: 32px;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-text-fill: -text-ehite-color;
+    -fx-padding: 8px 16px;
+    -fx-text-alignment: center;
+    -fx-background-color: -error-color;
+    -fx-background-radius: 30px;
+}
+
+.file-drop-zone {
+    -fx-border-color: #404040;
+    -fx-border-radius: 4;
+    -fx-border-style: dashed;
+    -fx-border-width: 2px;
+    -fx-pref-height: 280px;
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+}
+
+.file-drop-zone .label {
+    -fx-alignment: center;
+    -fx-font-size: 18px;
+}
+
+.file-loading-box { -fx-spacing: 16px; }
+.file-loading-box .label { -fx-font-size: 16px; }
+
+.file-loading-box .jfx-spinner:indeterminate .arc {
+    -fx-stroke: -accent-color;
+    -fx-stroke-width: 4.0;
+}
+
+.settings-form-box {
+    -fx-padding: 16px 16px 0;
+    -fx-spacing: 32px;
+}
+
+.settings-form-box .icon { -fx-fill: #A3A3A3; }
+
+.settings-form-box .image-properties .label {
+    -fx-font-size: 14px;
+    -fx-text-fill: -text-color;
+}
+
+.settings-form-box .image-properties .header.label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.settings-form-box .image-properties .header.icon { -fx-fill: -text-color; }
+.settings-form-box .image-properties .label.prop-name { -fx-text-fill: -text-light-color; }
+
+.generation-status-box { -fx-padding: 16px 16px 0; }
+.generation-status-box .label { -fx-font-size: 14px; }
+.generation-status-box .jfx-progress-bar > .bar { -fx-background-color: -accent-color; }
+.generation-status-box .jfx-progress-bar.error > .bar { -fx-background-color: -error-color; }
+.footer { -fx-padding: 16px; }
+
+
+.jfx-text-field {
+    -jfx-focus-color: -main-color;
+    -jfx-unfocus-color: -text-light-color;
+    -fx-text-fill: -text-color;
+    -fx-prompt-text-fill: -text-light-color;
+    -fx-font-family: Roboto;
+    -fx-font-size: 13px;
+}
+
+.jfx-check-box {
+    -jfx-checked-color: -accent-color;
+    -fx-font-size: 14px;
+    -fx-text-fill: -text-color;
+}
+
+.jfx-text-field:error {
+    -jfx-focus-color: -error-color;
+    -jfx-unfocus-color: -error-color;
+}
+
+.jfx-text-field .error-label {
+    -fx-text-fill: -error-color;
+    -fx-font-size: 11px;
+}
+
+.jfx-button {
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: -main-color;
+    -fx-text-fill: -text-ehite-color;
+    -jfx-button-type: FLAT;
+    /*-jfx-disable-visual-focus: true;*/
+}
