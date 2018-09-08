@@ -1,5 +1,7 @@
 Image Tiler
 ==============
+![version](https://img.shields.io/github/release/avaneev95/ImageTiler.svg)
+![license](https://img.shields.io/github/license/avaneev95/ImageTiler.svg)
 
 This application splits the given image into multiple tiles of different resolutions.
 The generated tiles can be displayed using Google Maps, Leaflet or OpenLayers.
