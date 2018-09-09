@@ -12,8 +12,7 @@ It also provides a simple preview file using Leaflet library.
 * Java 8
 
 ### Usage
-1. Download the runnable jar file [ImageTiler.jar](https://github.com/avaneev95/ImageTiler/releases/download/1.1.1/ImageTiler.jar). 
-You can also download an executable [ImageTiler.exe](https://github.com/avaneev95/ImageTiler/releases/download/1.1.1/ImageTiler.exe).
+1. Download the runnable jar file [ImageTiler.jar](https://github.com/avaneev95/ImageTiler/releases/download/1.1.1/ImageTiler.jar).
 2. Run
 3. Choose image
 4. Specify settings
