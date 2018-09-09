@@ -105,7 +105,7 @@ public class LoadImageController {
             Options options = OptionsHolder.getOptions();
             options.setSourceFile(this.getValue());
             options.setSourceFileName(file.getName());
-            options.setImageSize(options.getSourceFile().getWidth());
+            options.setImageSize(Math.min(options.getSourceFile().getWidth(), options.getSourceFile().getHeight()));
             options.setZoomLevel(MapHelper.optimalZoomLevel(options.getTileSize(), options.getImageSize()));
 
             ViewRouter.getInstance().navigateTo(ViewRouter.View.SETTINGS_VIEW);

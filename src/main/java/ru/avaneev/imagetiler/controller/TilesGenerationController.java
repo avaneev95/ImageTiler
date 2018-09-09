@@ -1,15 +1,22 @@
 package ru.avaneev.imagetiler.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXProgressBar;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
-import ru.avaneev.imagetiler.model.OptionsHolder;
 import ru.avaneev.imagetiler.component.ViewRouter;
 import ru.avaneev.imagetiler.component.generator.PreviewGenerator;
 import ru.avaneev.imagetiler.component.generator.TileGenerator;
+import ru.avaneev.imagetiler.model.OptionsHolder;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -51,15 +58,33 @@ public class TilesGenerationController {
                     }
                 })
                 .exceptionally(t -> {
-                    log.error("Failed to generate tiles", t);
-                    Platform.runLater(() -> {
-                        finishButton.setDisable(false);
-                        finishButton.setOnAction(e -> Platform.exit());
-                        progressBar.getStyleClass().add("error");
-                        progressBar.setProgress(100.0);
-                    });
+                    onError(t);
                     return null;
                 });
+    }
+
+    private void onError(Throwable t) {
+        log.error("Failed to generate tiles", t);
+        Platform.runLater(() -> {
+            finishButton.setDisable(false);
+            finishButton.setOnAction(e -> Platform.exit());
+            progressBar.getStyleClass().add("error");
+            progressBar.setProgress(100.0);
+
+            JFXDialog alert = new JFXDialog();
+            alert.setOverlayClose(false);
+            JFXDialogLayout layout = new JFXDialogLayout();
+            layout.getStyleClass().add("alert-dialog-error");
+            Label label = new Label("Process Failed!");
+            label.setPadding(new Insets(0, 0, 0, 40));
+            layout.setHeading(new MaterialDesignIconView(MaterialDesignIcon.ALERT_OCTAGON, "32"), label);
+            layout.setBody(new VBox(new Label("Failed to generate tiles for image."), new Label("Cause: " + t.getMessage())));
+            JFXButton closeButton = new JFXButton("CLOSE");
+            closeButton.setOnAction(event -> Platform.exit());
+            layout.setActions(closeButton);
+            alert.setContent(layout);
+            alert.show((StackPane) finishButton.getScene().getRoot());
+        });
     }
 
     @FXML

@@ -6,27 +6,29 @@
     -error-color: #f44236;
     -text-color: #1F1F1F;
     -text-light-color: #666666;
-    -text-ehite-color: #F8F8F9;
+    -text-white-color: #F8F8F9;
 }
 
-.label, .button {
+.label {
     -fx-font-family: Roboto;
 }
 
 .jfx-tool-bar {
     -fx-font-size: 20px;
     -fx-background-color: -main-color;
-    -fx-font-weight: 500;
     -fx-pref-width: 100%;
     -fx-pref-height: 48px;
 }
+.jfx-tool-bar .label {
+    -fx-font-family: "Roboto Medium";
+}
 
 .jfx-tool-bar .icon {
-    -fx-fill: -text-ehite-color;
+    -fx-fill: -text-white-color;
 }
 
 .jfx-tool-bar .label {
-    -fx-text-fill: -text-ehite-color;
+    -fx-text-fill: -text-white-color;
 }
 
 .jfx-tool-bar HBox {
@@ -37,14 +39,14 @@
 
 .file-drop-zone-box {
     -fx-spacing: 16px;
-    -fx-text-fill: -text-ehite-color;
+    -fx-text-fill: -text-white-color;
 }
 
 .file-drop-zone-box .error.label {
+    -fx-font-family: "Roboto Medium";
     -fx-pref-height: 32px;
     -fx-font-size: 14px;
-    -fx-font-weight: 500;
-    -fx-text-fill: -text-ehite-color;
+    -fx-text-fill: -text-white-color;
     -fx-padding: 8px 16px;
     -fx-text-alignment: center;
     -fx-background-color: -error-color;
@@ -129,9 +131,25 @@
 .jfx-button {
     -fx-padding: 8px 16px;
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
     -fx-background-color: -main-color;
-    -fx-text-fill: -text-ehite-color;
+    -fx-text-fill: -text-white-color;
     -jfx-button-type: FLAT;
     /*-jfx-disable-visual-focus: true;*/
+}
+
+.jfx-button.basic {
+    -fx-background-color: transparent;
+    -fx-text-fill: -text-color;
+}
+
+.alert-dialog-error .jfx-layout-heading .label {
+    -fx-text-fill: -error-color;
+}
+.alert-dialog-error .jfx-layout-heading MaterialDesignIconView {
+    -fx-fill: -error-color;
+}
+.alert-dialog-error .jfx-layout-actions .jfx-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -error-color;
+    -jfx-disable-visual-focus: true;
 }
