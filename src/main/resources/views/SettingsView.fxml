@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToolbar?>
+<?import com.jfoenix.validation.IntegerValidator?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
@@ -14,7 +15,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import com.jfoenix.validation.IntegerValidator?>
 <?import ru.avaneev.imagetiler.component.validation.IntegerSizeValidator?>
 
 <BorderPane prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.avaneev.imagetiler.controller.SettingsController">
@@ -66,8 +66,8 @@
                   <JFXTextField fx:id="tileSizeInput" labelFloat="true" promptText="Tile size" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                       <validators>
                           <RequiredFieldValidator message="Required field!" />
-                          <IntegerValidator message="Expected an integer value!"/>
-                          <IntegerSizeValidator min="64" message="Minimal value is 64!"/>
+                          <IntegerValidator message="Expected an integer value!" />
+                          <IntegerSizeValidator message="Minimal value is 64!" min="64" />
                       </validators>
                      <GridPane.margin>
                         <Insets left="40.0" />
@@ -77,8 +77,8 @@
                   <JFXTextField fx:id="zoomLevelInput" labelFloat="true" promptText="Max zoom level" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                       <validators>
                           <RequiredFieldValidator message="Required field!" />
-                          <IntegerValidator message="Expected an integer value!"/>
-                          <IntegerSizeValidator min="1" max="10" message="Expected value between 1 and 10!"/>
+                          <IntegerValidator message="Expected an integer value!" />
+                          <IntegerSizeValidator min="1" max="10" message="Expected value between 1 and 10!" />
                       </validators>
                       <GridPane.margin>
                         <Insets left="40.0" />
@@ -91,7 +91,7 @@
             </GridPane>
             <GridPane hgap="40.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="479.0" minWidth="265.0" prefWidth="477.0" />
+                <ColumnConstraints hgrow="SOMETIMES" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
               </columnConstraints>
                <children>
@@ -104,7 +104,7 @@
                         <Insets left="40.0" />
                      </GridPane.margin>
                   </JFXTextField>
-                  <JFXButton fx:id="browseOutputDirectoryButton" onAction="#browseOutputDirectory" text="BROWSE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <JFXButton fx:id="browseOutputDirectoryButton" onAction="#browseOutputDirectory" styleClass="basic" text="BROWSE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                </children>
                <rowConstraints>
                   <RowConstraints />
@@ -118,9 +118,10 @@
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <children>
-                  <JFXTextField fx:id="previewWidthInput" labelFloat="true" promptText="Prview Width" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <JFXTextField fx:id="previewWidthInput" labelFloat="true" promptText="Preview Width" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                       <validators>
                           <RequiredFieldValidator message="Required field!" />
+                          <IntegerValidator message="Expected an integer value!" />
                       </validators>
                      <GridPane.margin>
                         <Insets />
@@ -129,6 +130,7 @@
                   <JFXTextField fx:id="previewHeightInput" labelFloat="true" promptText="Preview Height" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                       <validators>
                           <RequiredFieldValidator message="Required field!" />
+                          <IntegerValidator message="Expected an integer value!" />
                       </validators>
                       <GridPane.margin>
                         <Insets />
