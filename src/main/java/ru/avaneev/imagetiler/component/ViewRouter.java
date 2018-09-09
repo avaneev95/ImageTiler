@@ -1,7 +1,10 @@
 package ru.avaneev.imagetiler.component;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,7 +41,12 @@ public class ViewRouter {
         if (primaryStage != null) {
             log.info("Navigating to: {}", scene.getViewName());
             Parent pane = this.loadFXML(scene.getFilename());
-            this.primaryStage.getScene().setRoot(pane);
+            StackPane root = (StackPane) this.primaryStage.getScene().getRoot();
+            ObservableList<Node> nodes = root.getChildren();
+            nodes.add(0, pane);
+            if (nodes.size() > 1) {
+                nodes.remove(1);
+            }
         }
     }
 

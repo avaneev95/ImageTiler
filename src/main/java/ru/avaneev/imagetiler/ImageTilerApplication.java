@@ -3,7 +3,7 @@ package ru.avaneev.imagetiler;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import ru.avaneev.imagetiler.component.ViewRouter;
 
@@ -13,13 +13,13 @@ public class ImageTilerApplication extends Application {
     public void start(Stage primaryStage) {
         System.setProperty("prism.lcdtext", "false");
 
-        Pane root = new Pane();
+        StackPane root = new StackPane();
         Scene scene = new Scene(root, 640, 480);
 
         scene.getStylesheets().addAll(
-                ImageTilerApplication.class.getResource("/css/styles.css").toExternalForm(),
                 ImageTilerApplication.class.getResource("/css/jfoenix-fonts.css").toExternalForm(),
-                ImageTilerApplication.class.getResource("/css/jfoenix-design.css").toExternalForm()
+                ImageTilerApplication.class.getResource("/css/jfoenix-design.css").toExternalForm(),
+                ImageTilerApplication.class.getResource("/css/styles.css").toExternalForm()
         );
 
         primaryStage.setTitle("Image Tiler");
